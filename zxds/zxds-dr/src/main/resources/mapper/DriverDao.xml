@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.zxds.dr.db.dao.DriverDao">
+
+    <select id="hasDriver" parameterType="map" resultType="long">
+        SELECT COUNT(1)  AS ct
+        FROM tb_driver
+        <where>
+            <if test="openId != null">
+                AND open_id = #{openId}
+            </if>
+            <if test="driverId != null">
+                AND id = #{driverId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="registerNewDriver" parameterType="map">
+        INSERT INTO tb_driver
+            (id, open_id, nickname, photo, real_auth, summary, archive, `status`)
+        VALUES
+            (#{id}, #{openId}, #{nickname}, #{photo},
+             #{realAuth}, #{summary}, #{archive}, #{status})
+    </insert>
+
+    <update id="updateDriverAuth" parameterType="Map">
+        UPDATE tb_driver
+        SET `name`            = #{name},
+            sex               = #{sex},
+            pid               = #{pid},
+            birthday          = #{birthday},
+            tel               = #{tel},
+            mail_address      = #{mailAddress},
+            contact_name      = #{contactName},
+            contact_tel       = #{contactTel},
+            email             = #{email},
+            real_auth         = 3,
+            idcard_address    = #{idcardAddress},
+            idcard_expiration = #{idcardExpiration},
+            idcard_front      = #{idcardFront},
+            idcard_back       = #{idcardBack},
+            idcard_holding    = #{idcardHolding},
+            drcard_type       = #{drcardType},
+            drcard_expiration = #{drcardExpiration},
+            drcard_issue_date = #{drcardIssueDate},
+            drcard_front      = #{drcardFront},
+            drcard_back       = #{drcardBack},
+            drcard_holding    = #{drcardHolding}
+        WHERE id = #{driverId}
+    </update>
+
+    <select id="searchDriverNameAndSex" parameterType="long" resultType="Map">
+        SELECT name,sex
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
+
+    <update id="updateDriverArchive" parameterType="long">
+        UPDATE tb_driver
+        SET archive=1
+        WHERE id = #{driverId}
+    </update>
+
+    <select id="login" parameterType="String" resultType="map">
+        SELECT CAST(id AS CHAR) AS id,
+               real_auth        AS realAuth,
+               archive
+        FROM tb_driver
+        WHERE `status` != 2 AND open_id = #{openId}
+    </select>
+
+    <select id="searchDriverBaseInfo" resultType="map">
+        SELECT d.open_id               AS openId,
+               d.`name`,
+               d.nickname,
+               d.sex,
+               d.photo,
+               d.tel,
+               d.email,
+               d.pid,
+               d.real_auth             AS realAuth,
+               d.summary,
+               d.`status`,
+               CAST(w.balance AS CHAR) AS balance,
+               d.create_time           AS createTime
+        FROM tb_driver d
+                 JOIN tb_wallet w ON d.id = w.driver_id
+        WHERE d.id = #{driverId};
+    </select>
+
+    <select id="searchDriverByPage" parameterType="map" resultType="map">
+        select cast(id as char) as id,
+        ifnull(`name`,"") as `name`,
+        ifnull(sex,"") as sex,
+        ifnull(pid,"") as pid,
+        ifnull(tel,"") as tel,
+        ifnull(contact_name,"") as contactName,
+        ifnull(contact_tel,"") as contactTel,
+        ifnull(real_auth,"") as realAuth,
+        `status`,
+        date_format(create_time, '%Y-%m-%d') as createTime
+        from tb_driver
+        <where>
+            <if test="name!=null and name != ''">
+                and `name` like concat('%', #{name}, '%')
+            </if>
+            <if test="tel!=null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="pid!=null and pid != ''">
+                and pid = #{pid}
+            </if>
+            <if test="sex!=null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="realAuth!=null">
+                and `real_auth` = #{realAuth}
+            </if>
+            <if test="status!=null">
+                and `status` = #{status}
+            </if>
+        </where>
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="searchDriverCount" parameterType="map" resultType="long">
+        select count(*)
+        from tb_driver
+        <where>
+            <if test="name!=null and name != ''">
+                and `name` like concat('%', #{name}, '%')
+            </if>
+            <if test="tel!=null and tel != ''">
+                and tel = #{tel}
+            </if>
+            <if test="pid!=null and pid != ''">
+                and pid = #{pid}
+            </if>
+            <if test="sex!=null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="realAuth!=null">
+                and `real_auth` = #{realAuth}
+            </if>
+            <if test="status!=null">
+                and `status` = #{status}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="searchDriverAuth" resultType="map">
+        SELECT IFNULL(`name`, '')            AS `name`,
+               IFNULL(sex, '')               AS sex,
+               IFNULL(pid, '')               AS pid,
+               IFNULL(birthday, '')          AS birthday,
+               IFNULL(tel, '')               AS tel,
+               IFNULL(mail_address, '')      AS mailAddress,
+               IFNULL(contact_name, '')      AS contactName,
+               IFNULL(contact_tel, '')       AS contactTel,
+               IFNULL(email, '')             AS email,
+               IFNULL(real_auth, '')         AS realAuth,
+               IFNULL(idcard_address, '')    AS idcardAddress,
+               IFNULL(idcard_expiration, '') AS idcardExpiration,
+               IFNULL(idcard_front, '')      AS idcardFront,
+               IFNULL(idcard_back, '')       AS idcardBack,
+               IFNULL(idcard_holding, '')    AS idcardHolding,
+               IFNULL(drcard_type, '')       AS drcardType,
+               IFNULL(drcard_expiration, '') AS drcardExpiration,
+               IFNULL(drcard_issue_date, '') AS drcardIssueDate,
+               IFNULL(drcard_front, '')      AS drcardFront,
+               IFNULL(drcard_back, '')       AS drcardBack,
+               IFNULL(drcard_holding, '')    AS drcardHolding
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
+
+    <select id="searchDriverRealSummary" parameterType="long" resultType="map">
+        SELECT timestampdiff(YEAR,drcard_issue_date, NOW()) AS `year`,
+               birthday,
+               email,
+               mail_address                                 AS mailAddress,
+               idcard_address                               AS idcardAddress,
+               idcard_front                                 AS idcardFront,
+               idcard_back                                  AS idcardBack,
+               idcard_holding                               AS idcardHolding,
+               drcard_front                                 AS drcardFront,
+               drcard_back                                  AS drcardBack,
+               drcard_holding                               AS drcardHolding
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
+
+    <update id="updateDriverRealAuth">
+        update tb_driver
+        set real_auth = #{realAuth}
+        where id = #{driverId}
+    </update>
+
+    <select id="searchDriverBriefInfo" parameterType="long" resultType="HashMap">
+        SELECT CAST(id AS CHAR) AS id,
+               `name`,
+               tel,
+               photo
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
+
+    <select id="searchDriverOpenId" parameterType="long" resultType="String">
+        SELECT open_id AS openId
+        FROM tb_driver
+        WHERE id = #{driverId}
+    </select>
+
+</mapper>

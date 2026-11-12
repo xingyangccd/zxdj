@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="代金券模块:8008" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-vhr" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.vhr.ZxdsVhrApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

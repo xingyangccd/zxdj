@@ -1,0 +1,75 @@
+server:
+  jetty:
+    threads:
+      acceptors: 4
+      selectors: 8
+  port: 8003
+  servlet:
+    context-path: /
+
+spring:
+  config:
+    import:
+      - optional:nacos:common.yaml
+  application:
+    name: zxds-snm
+  cloud:
+    nacos:
+      config:
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        server-addr: 192.168.48.200:8848
+        namespace: zxds
+        username: nacos
+        password: abc123456
+      discovery:
+        namespace: zxds
+        username: nacos
+        password: abc123456
+        server-addr: 192.168.48.200:8848
+        group: DEFAULT_GROUP
+        ip: 192.168.1.5
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 10000
+            readTimeout: 300000
+
+  data:
+    mongodb:
+      host: 192.168.48.200
+      port: 27017
+      database: zxds
+      authentication-database: admin
+      username: admin
+      password: abc123456
+      option:
+        min-connection-per-host: 0
+        max-connection-per-host: 100
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+  rabbitmq:
+    host: 192.168.48.200
+    port: 5672
+    username: admin
+    password: abc123456
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%d{yyyy/MM/dd HH:mm:ss}  %-5level  %msg%n"
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /doc-api.html
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: on

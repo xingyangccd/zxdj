@@ -1,0 +1,5 @@
+2026-10-29 16:40:01 [com.xxl.job.core.thread.JobThread#run]-[133]-[xxl-job, JobThread-2-1793263201331] <br>----------- xxl-job job execute start -----------<br>----------- Param:
+2026-10-29 16:40:01 [com.example.zxds.odr.job.ProfitSharingCheckJob#checkProfitSharing]-[26]-[xxl-job, JobThread-2-1793263201331] 开始执行分账查单补偿任务...
+2026-10-29 16:40:04 [com.example.zxds.odr.job.ProfitSharingCheckJob#checkProfitSharing]-[49]-[xxl-job, JobThread-2-1793263201331] 查单成功，分账单号2115720132113342464已完成分账
+2026-10-29 16:40:04 [com.xxl.job.core.thread.JobThread#run]-[179]-[xxl-job, JobThread-2-1793263201331] <br>----------- xxl-job job execute end(finish) -----------<br>----------- Result: handleCode=200, handleMsg = null
+2026-10-29 16:40:04 [com.xxl.job.core.thread.TriggerCallbackThread#callbackLog]-[197]-[xxl-job, executor TriggerCallbackThread] <br>----------- xxl-job job callback finish.

@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="MIS模块:8010" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-mis-api" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.mis.api.ZxdsMisApiApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

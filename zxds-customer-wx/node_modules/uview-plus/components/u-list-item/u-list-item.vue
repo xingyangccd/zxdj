@@ -1,0 +1,132 @@
+<template>
+	<!-- #ifdef APP-NVUE -->
+	<cell>
+		<!-- #endif -->
+		<view
+			class="u-list-item"
+			:id="anchorId"
+			:ref="`u-list-item-${anchor}`"
+			:anchor="`u-list-item-${anchor}`"
+			:class="[`u-list-item-${anchor}`]"
+		>
+			<slot />
+		</view>
+		<!-- #ifdef APP-NVUE -->
+	</cell>
+	<!-- #endif -->
+</template>
+
+<script>
+	import { props } from './props';
+	import { mpMixin } from '../../libs/mixin/mpMixin';
+	import { mixin } from '../../libs/mixin/mixin';
+	import { getWindowInfo } from '../../libs/function/index';
+	// #ifdef APP-NVUE
+	const dom = uni.requireNativePlugin('dom')
+	// #endif
+	/**
+	 * List 列表
+	 * @description 该组件为高性能列表组件
+	 * @tutorial https://uview-plus.jiangruyi.com/components/list.html
+	 * @property {String | Number}	anchor	item的锚点，将u-list的scroll-into-view设置为该值即可滚动到此item
+	 * @example <u-list-item v-for="(item, index) in indexList" :key="index" :anchor="`item-${index}`"></u-list-item>
+	 */
+	export default {
+		name: 'u-list-item',
+		mixins: [mpMixin, mixin, props],
+		data() {
+			return {
+				// 节点信息
+				rect: {},
+				index: 0,
+				show: true,
+				sys: getWindowInfo()
+			}
+		},
+		computed: {
+			// scroll-view的scroll-into-view只认节点id，故由anchor加前缀生成；
+			// 未设置anchor时输出null，避免列表里的每一项都得到同一个空id。
+			anchorId() {
+				if (this.anchor === '' || this.anchor === null || this.anchor === undefined) return null
+				return 'u-list-item-' + this.anchor
+			}
+		},
+		inject: ['uList'],
+		watch: {
+			// #ifndef APP-NVUE
+			'uList.innerScrollTop'(n) {
+				// 确保parent已正确初始化，避免在mounted之前触发watch导致报错
+				if (!this.parent || !this.parent.updateOffsetFromChild) {
+					return
+				}
+				const preLoadScreen = this.uList.preLoadScreen
+				const windowHeight = this.sys.windowHeight
+				if(n <= windowHeight * preLoadScreen) {
+					this.parent.updateOffsetFromChild(0)
+				} else if (this.rect.top <= n - windowHeight * preLoadScreen) {
+					this.parent.updateOffsetFromChild(this.rect.top)
+				}
+			}
+			// #endif
+		},
+		created() {
+			this.parent = {}
+		},
+		mounted() {
+			this.init()
+		},
+		methods: {
+			init() {
+				// 初始化数据
+				this.updateParentData()
+				// 父组件未找到或 children 尚未初始化时跳过，避免 indexOf 报错
+				if (!this.parent || !this.parent.children) {
+					return
+				}
+				this.index = this.parent.children.indexOf(this)
+				this.resize()
+			},
+			updateParentData() {
+				// 此方法在mixin中
+				this.getParentData('u-list')
+			},
+			resize() {
+				this.queryRect(`u-list-item-${this.anchor}`).then(size => {
+					const lastChild = this.parent.children[this.index - 1]
+					this.rect = size
+					const preLoadScreen = this.uList.preLoadScreen
+					const windowHeight = this.sys.windowHeight
+					// #ifndef APP-NVUE
+					if (lastChild) {
+						this.rect.top = lastChild.rect.top + lastChild.rect.height
+					}
+					if (size.top >= this.uList.innerScrollTop + (1 + preLoadScreen) * windowHeight) this.show =
+						false
+					// #endif
+				})
+			},
+			// 查询元素尺寸
+			queryRect(el) {
+				return new Promise(resolve => {
+					// #ifndef APP-NVUE
+					this.$uGetRect(`.${el}`).then(size => {
+						resolve(size)
+					})
+					// #endif
+
+					// #ifdef APP-NVUE
+					const ref = this.$refs[el]
+					dom.getComponentRect(ref, res => {
+						resolve(res.size)
+					})
+					// #endif
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+
+	.u-list-item {}
+</style>

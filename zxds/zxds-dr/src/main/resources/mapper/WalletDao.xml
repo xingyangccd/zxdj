@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.zxds.dr.db.dao.WalletDao">
+
+    <insert id="insertWallet" parameterType="WalletEntity">
+        INSERT INTO tb_wallet
+            (id, driver_id, balance, password)
+        VALUES
+            (#{id}, #{driverId}, #{balance}, #{password})
+    </insert>
+    
+    <update id="updateWalletBalance" parameterType="map">
+        update tb_wallet
+        set balance = balance + #{amount}
+        where driver_id = #{driverId}
+        <if test="amount &lt; 0">
+            and balance &gt;= ABS(#{amount})
+            and password = MD5(CONCAT(MD5(driver_id), #{password}))
+        </if>
+    </update>
+
+</mapper>

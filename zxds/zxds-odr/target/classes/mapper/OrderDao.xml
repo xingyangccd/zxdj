@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.zxds.odr.db.dao.OrderDao">
+
+    <!--注意：mybatis中，查询结果中，如果某列是null，返回结果如果是map集合，则map集合中不会创建对应的key。因此要添加ifnull函数-->
+    <select id="searchDriverTodayBusinessData" parameterType="long" resultType="map">
+        SELECT IFNULL(SUM(TIMESTAMPDIFF(HOUR,end_time, start_time)), 0) AS duration,
+               IFNULL(SUM(real_fee), 0)                                 AS income,
+               COUNT(id)                                                AS orders
+        FROM tb_order
+        WHERE driver_id = #{driverId}
+          AND `status` IN (5, 6, 7, 8)
+          AND date = CURRENT_DATE
+    </select>
+
+    <!-- 新增订单 -->
+    <insert id="insert" parameterType="com.example.zxds.odr.db.pojo.OrderEntity">
+        INSERT INTO tb_order (
+            id, uuid, customer_id, start_place, start_place_location,
+            end_place, end_place_location, expects_mileage, expects_fee,
+            favour_fee, charge_rule_id, car_plate, car_type, date
+        ) VALUES (
+                     #{id}, #{uuid}, #{customerId}, #{startPlace}, #{startPlaceLocation},
+                     #{endPlace}, #{endPlaceLocation}, #{expectsMileage}, #{expectsFee},
+                     #{favourFee}, #{chargeRuleId}, #{carPlate}, #{carType}, #{date}
+                 )
+    </insert>
+
+    <!-- 按 UUID 查订单 id，转成字符串返回（防止 JS 精度丢失） -->
+    <select id="searchOrderIdByUUID" parameterType="String" resultType="String">
+        SELECT CAST(id AS CHAR) AS id
+        FROM tb_order
+        WHERE uuid = #{uuid}
+    </select>
+
+    <select id="getOrderStatusById" resultType="java.lang.Integer">
+        select status from tb_order where id = #{orderId}
+    </select>
+
+    <update id="acceptNewOrder">
+        update tb_order
+        set driver_id   = #{driverId},
+            accept_time = now(),
+            `status`    = 2
+        where id = #{orderId}
+          and `status` = 1
+    </update>
+
+    <select id="searchDriverExecuteOrder" parameterType="Map" resultType="HashMap">
+        SELECT CAST(id AS CHAR)                              AS id,
+               customer_id                                   AS customerId,
+               start_place                                   AS startPlace,
+               start_place_location                          AS startPlaceLocation,
+               end_place                                     AS endPlace,
+               end_place_location                            AS endPlaceLocation,
+               CAST(favour_fee AS CHAR)                      AS favourFee,
+               car_plate                                     AS carPlate,
+               car_type                                      AS carType,
+               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS createTime
+        FROM tb_order
+        WHERE id = #{orderId}
+          AND driver_id = #{driverId}
+    </select>
+
+    <select id="searchOrderStatus" parameterType="Map" resultType="Integer">
+        SELECT status
+        FROM tb_order
+        WHERE id = #{orderId}
+        <if test="driverId!=null">
+            AND driver_id = #{driverId}
+        </if>
+        <if test="customerId!=null">
+            AND customer_id = #{customerId}
+        </if>
+    </select>
+
+    <delete id="deleteUnAcceptOrder" parameterType="Map">
+        DELETE FROM tb_order
+        WHERE id = #{orderId}
+        <if test="driverId!=null">
+            AND driver_id = #{driverId}
+        </if>
+        <if test="customerId!=null">
+            AND customer_id = #{customerId}
+        </if>
+    </delete>
+
+    <select id="searchDriverCurrentOrder" parameterType="long" resultType="HashMap">
+        SELECT CAST(id AS CHAR)                              AS id,
+               customer_id                                   AS customerId,
+               start_place                                   AS startPlace,
+               start_place_location                          AS startPlaceLocation,
+               end_place                                     AS endPlace,
+               end_place_location                            AS endPlaceLocation,
+               CAST(favour_fee AS CHAR)                      AS favourFee,
+               car_plate                                     AS carPlate,
+               car_type                                      AS carType,
+               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') AS createTime,
+               `status`
+        FROM tb_order
+        WHERE driver_id = #{driverId}
+          AND `status` IN (2, 3, 4) LIMIT 1
+    </select>
+
+    <!--查询状态是1的订单，并且创建订单的时间超过16分钟，这些订单的ID查询出来。-->
+    <select id="searchTimeoutOrderIds" resultType="Long">
+        select id
+        from tb_order
+        where `status` = 1
+          and create_time &lt;= date_sub(now(), interval 16 minute)
+    </select>
+
+    <select id="hasCustomerUnFinishedOrder" parameterType="long" resultType="Long">
+        SELECT CAST(id AS CHAR)     AS id
+        FROM tb_order
+        WHERE customer_id = #{customerId}
+          AND `status` IN (2, 3, 4) LIMIT 1;
+    </select>
+    <select id="hasCustomerUnAcceptOrder" parameterType="long" resultType="HashMap">
+        SELECT CAST(id AS CHAR)     AS id,
+               start_place          AS startPlace,
+               start_place_location AS startPlaceLocation,
+               end_place            AS endPlace,
+               end_place_location   AS endPlaceLocation,
+               car_plate            AS carPlate,
+               car_type             AS carType
+        FROM tb_order
+        WHERE customer_id = #{customerId}
+          AND `status` = 1 LIMIT 1;
+    </select>
+
+    <select id="searchOrderForMoveById" parameterType="Map" resultType="Map">
+        SELECT start_place AS startPlace,
+        start_place_location AS startPlaceLocation,
+        end_place AS endPlace,
+        end_place_location AS endPlaceLocation,
+        `status`
+        FROM tb_order
+        WHERE id = #{orderId}
+        <if test="customerId!=null">
+            AND customer_id = #{customerId}
+        </if>
+        <if test="driverId!=null">
+            AND driver_id = #{driverId}
+        </if>
+        LIMIT 1;
+    </select>
+
+    <update id="updateOrderStatus">
+        update tb_order
+        set
+        <if test="status == 3">
+            arrive_time = now(),
+        </if>
+        <if test="status == 4">
+            start_time = now(),
+            waiting_minute = timestampdiff(minute, arrive_time, now()),
+        </if>
+        <if test="status == 5">
+            end_time = now(),
+        </if>
+        `status` = #{status}
+        where id = #{orderId}
+        <if test="customerId != null">
+            and customer_id = #{customerId}
+        </if>
+        <if test="driverId != null">
+            and driver_id = #{driverId}
+        </if>
+    </update>
+
+    <select id="searchOrderByPage" parameterType="map" resultType="map">
+        select CAST(id as char) as id,
+               start_place as startPlace,
+               end_place as endPlace,
+               CAST(real_mileage as char) as realMileage,
+               CAST(real_fee as char) as realFee,
+               `status`,
+               DATE_FORMAT(create_time, '%Y-%m-%d %H:%i') as createTime
+        from tb_order
+        <where>
+            <if test="orderId != null">
+                and id = #{orderId}
+            </if>
+            <if test="customerId != null">
+                and customer_id = #{customerId}
+            </if>
+            <if test="driverId != null">
+                and driver_id = #{driverId}
+            </if>
+            <if test="startDate != null and endDate != null ">
+                and date between #{startDate} and #{endDate}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+        </where>
+        order by id desc
+        limit #{startIndex}, #{pageSize}
+    </select>
+
+    <select id="searchOrderCount" parameterType="map" resultType="long">
+        select count(*)
+        from tb_order
+        <where>
+            <if test="orderId != null">
+                and id = #{orderId}
+            </if>
+            <if test="customerId != null">
+                and customer_id = #{customerId}
+            </if>
+            <if test="driverId != null">
+                and driver_id = #{driverId}
+            </if>
+            <if test="startDate != null and endDate != null ">
+                and date between #{startDate} and #{endDate}
+            </if>
+            <if test="status != null">
+                and `status` = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="searchOrderContent" parameterType="long" resultType="HashMap">
+        SELECT CAST(o.driver_id AS CHAR)                     AS driverId,
+               CAST(o.customer_id AS CHAR)                   AS customerId,
+               o.car_plate                                   AS carPlate,
+               o.car_type                                    AS carType,
+               DATE_FORMAT(o.accept_time, '%Y-%m-%d %H:%i')  AS acceptTime,
+               DATE_FORMAT(o.arrive_time, '%Y-%m-%d %H:%i')  AS arriveTime,
+               DATE_FORMAT(o.start_time, '%Y-%m-%d %H:%i')   AS startTime,
+               DATE_FORMAT(o.end_time, '%Y-%m-%d %H:%i')     AS endTime,
+               o.waiting_minute                              AS waitingMinute,
+               TIMESTAMPDIFF(MINUTE,o.start_time, o.end_time) AS `driveMinute`,
+               CAST(o.real_mileage AS CHAR)                  AS realMileage,
+               CAST(o.real_fee AS CHAR)                      AS realFee,
+               o.`status`,
+               CAST(o.charge_rule_id AS CHAR)                AS chargeRuleId,
+               CAST(o.cancel_rule_id AS CHAR)                AS cancelRuleId,
+               CAST(p.rule_id AS CHAR)                       AS profitSharingRuleId,
+               o.start_place_location                        AS startPlaceLocation,
+               o.end_place_location                          AS endPlaceLocation
+        FROM tb_order o
+                 LEFT JOIN tb_order_profitsharing p ON o.id = p.order_id
+        WHERE o.id = #{orderId}
+    </select>
+
+    <update id="updateOrderMileageAndFee" parameterType="Map">
+        UPDATE tb_order
+        SET real_mileage   = #{realMileage},
+            return_mileage = #{returnMileage},
+            incentive_fee  = #{incentiveFee},
+            real_fee       = #{total}
+        WHERE id = #{orderId}
+    </update>
+
+    <select id="validDriverOwnOrder" parameterType="Map" resultType="boolean">
+        SELECT 1
+        FROM tb_order
+        WHERE id = #{orderId}
+          AND driver_id = #{driverId} LIMIT 1
+    </select>
+
+    <!--搜索结算需要的数据-->
+    <select id="searchSettlementNeedData" parameterType="long" resultType="java.util.HashMap">
+        SELECT DATE_FORMAT(accept_time, '%Y-%m-%d %H:%i:%s') AS acceptTime,
+               DATE_FORMAT(start_time, '%Y-%m-%d %H:%i:%s')  AS startTime,
+               waiting_minute                                AS waitingMinute,
+               favour_fee                                    AS favourFee
+        FROM tb_order
+        WHERE id = #{orderId}
+    </select>
+
+    <select id="searchOrderById" parameterType="Map" resultType="HashMap">
+        SELECT CAST(o.id AS CHAR) AS id,
+        CAST(o.driver_id AS CHAR) AS driverId,
+        CAST(o.customer_id AS CHAR) AS customerId,
+        o.start_place AS startPlace,
+        o.start_place_location AS startPlaceLocation,
+        o.end_place AS endPlace,
+        o.end_place_location AS endPlaceLocation,
+        CAST(b.total AS CHAR) AS total,
+        CAST(b.real_pay AS CHAR) AS realPay,
+        CAST(b.mileage_fee AS CHAR) AS mileageFee,
+        CAST(o.favour_fee AS CHAR) AS favourFee,
+        CAST(o.incentive_fee AS CHAR) AS incentiveFee,
+        CAST(b.waiting_fee AS CHAR) AS waitingFee,
+        CAST(b.return_fee AS CHAR) AS returnFee,
+        CAST(b.parking_fee AS CHAR) AS parkingFee,
+        CAST(b.toll_fee AS CHAR) AS tollFee,
+        CAST(b.other_fee AS CHAR) AS otherFee,
+        CAST(b.voucher_fee AS CHAR) AS voucherFee,
+        CAST(o.real_mileage AS CHAR) AS realMileage,
+        o.waiting_minute AS waitingMinute,
+        b.base_mileage AS baseMileage,
+        CAST(b.base_mileage_price AS CHAR) AS baseMileagePrice,
+        CAST(b.exceed_mileage_price AS CHAR) AS exceedMileagePrice,
+        b.base_minute AS baseMinute,
+        CAST(b.exceed_minute_price AS CHAR) AS exceedMinutePrice,
+        b.base_return_mileage AS baseReturnMileage,
+        CAST(b.exceed_return_price AS CHAR) AS exceedReturnPrice,
+        CAST(o.return_mileage AS CHAR) AS returnMileage,
+        o.car_plate AS carPlate,
+        o.car_type AS carType,
+        o.status,
+        DATE_FORMAT(o.create_time, '%Y-%m-%d %H:%i:%s') AS createTime
+        FROM tb_order o
+        JOIN tb_order_bill b ON o.id = b.order_id
+        WHERE o.id = #{orderId}
+        <if test="driverId!=null">
+            AND driver_id = #{driverId}
+        </if>
+        <if test="customerId!=null">
+            AND customer_id = #{customerId}
+        </if>
+    </select>
+
+    <select id="validCanPayOrder" parameterType="map" resultType="map">
+        select CAST(real_fee as char)  as realFee,
+               CAST(driver_id as char) as driverId,
+               uuid
+        from tb_order
+        where id = #{orderId}
+          and customer_id = #{customerId}
+          and `status` = 6
+    </select>
+
+    <update id="updateOrderPrepayId" parameterType="map">
+        update tb_order
+        set prepay_id = #{prepayId}
+        where id = #{orderId}
+    </update>
+
+    <select id="searchOrderIdAndStatus" parameterType="String" resultType="HashMap">
+        SELECT id,
+               `status`
+        FROM tb_order
+        WHERE uuid = #{uuid}
+    </select>
+
+    <select id="searchDriverIdAndIncentiveFee" parameterType="String" resultType="HashMap">
+        SELECT driver_id                   AS driverId,
+               CAST(incentive_fee AS CHAR) AS incentiveFee
+        FROM tb_order
+        WHERE uuid = #{uuid}
+    </select>
+
+    <update id="updateOrderPayIdAndStatus" parameterType="Map">
+        UPDATE tb_order
+        SET pay_id   = #{payId},
+            `status` = 7,
+            pay_time = #{payTime}
+        WHERE uuid = #{uuid}
+          AND `status` != 7
+    </update>
+
+    <update id="finishOrder" parameterType="String">
+        UPDATE tb_order
+        SET `status` = 8
+        WHERE uuid = #{uuid}
+    </update>
+
+    <!-- 根据订单ID查询 uuid 和 状态 -->
+    <select id="searchUuidAndStatus" parameterType="long" resultType="HashMap">
+        SELECT uuid,
+               `status`
+        FROM tb_order
+        WHERE id = #{orderId}
+    </select>
+
+    <!-- 根据订单ID更新支付状态和时间 -->
+    <update id="updateOrderAboutPayment" parameterType="Map">
+        UPDATE tb_order
+        SET `status` = 7,
+            pay_id   = #{payId},
+            pay_time = #{payTime}
+        WHERE id = #{orderId}
+          AND `status` != 7
+    </update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

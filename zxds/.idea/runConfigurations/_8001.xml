@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="司机模块:8001" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-dr" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.dr.ZxdsDrApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

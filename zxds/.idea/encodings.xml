@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/bff-customer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bff-customer/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bff-driver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bff-driver/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-cst/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-cst/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-dr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-dr/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-mis-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-mis-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-mps/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-mps/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-nebula/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-nebula/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-odr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-odr/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-oes/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-oes/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-rule/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-rule/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-snm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-snm/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-vhr/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zxds-vhr/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

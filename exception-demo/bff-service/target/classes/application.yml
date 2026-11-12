@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+order:
+  service:
+    url: http://localhost:8081
+
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 500 # 连接超时，单位毫秒：上游连接下游如果超过500ms没有连接上，报异常。
+            readTimeout: 1000 # 读超时，单位毫秒：上游连接上下游之后，业务处理时间超过1秒，报异常。

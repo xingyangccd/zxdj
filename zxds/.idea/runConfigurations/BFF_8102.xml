@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="乘客BFF:8102" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="bff-customer" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.bff.customer.BffCustomerApplication" />
+    <option name="VM_PARAMETERS" value="-javaagent:D:\skywalking-agent\skywalking-agent.jar  -Dskywalking.agent.service_name=bff-customer  -Dskywalking.collector.backend_service=192.168.48.200:11800" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

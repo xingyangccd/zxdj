@@ -1,0 +1,86 @@
+# ===== 服务器配置 =====
+server:
+  jetty:
+    threads:
+      acceptors: 4        # Jetty 接收线程数（负责接收连接）
+      selectors: 8        # Jetty 选择器线程数（负责处理 IO 事件）
+  port: 8009              # 服务端口号
+  servlet:
+    context-path: /       # 应用的访问路径前缀，/ 表示根路径
+
+# ===== Spring 相关配置 =====
+spring:
+  config:
+    import:
+      # 可选导入 Nacos 上的公共配置 common.yaml（optional 表示找不到也不报错）
+      - optional:nacos:common.yaml
+  application:
+    name: zxds-nebula      # 应用名称（nebula 通常指大数据/图数据相关服务）
+
+  # ===== Spring Cloud 配置 =====
+  cloud:
+    nacos:
+      config:                     # Nacos 配置中心
+        group: DEFAULT_GROUP      # 配置分组
+        file-extension: yaml      # 配置文件格式
+        server-addr: 192.168.48.200:8848   # Nacos 服务地址
+        namespace: zxds           # 命名空间
+        username: nacos           # 用户名
+        password: abc123456       # 密码
+      discovery:                  # Nacos 服务注册与发现
+        namespace: zxds
+        username: nacos
+        password: abc123456
+        server-addr: 192.168.48.200:8848
+        group: DEFAULT_GROUP
+        ip: 192.168.1.5
+    openfeign:
+      client:
+        config:
+          default:                # 对所有 Feign 客户端生效的默认配置
+            connectTimeout: 10000 # 连接超时时间（毫秒）
+            readTimeout: 300000   # 读取超时时间（毫秒，5 分钟）
+
+  # ===== 数据源配置（这里连的是 Phoenix，不是 MySQL）=====
+  datasource:
+    driver-class-name: org.apache.phoenix.queryserver.client.Driver   # Phoenix 轻客户端驱动
+    url: jdbc:phoenix:thin:url=http://192.168.48.200:8765;serialization=PROTOBUF
+    # Phoenix Query Server 地址（8765 是默认端口），使用 Protobuf 序列化协议通信
+    type: com.alibaba.druid.pool.DruidDataSource   # 使用 Druid 连接池
+    druid:
+      test-on-borrow: true        # 借出连接时检测连接是否有效
+      test-while-idle: true       # 空闲时检测连接是否有效
+      max-active: 8               # 最大活跃连接数
+      min-idle: 4                 # 最小空闲连接数
+
+  # ===== 文件上传配置 =====
+  servlet:
+    multipart:
+      enabled: true           # 开启文件上传
+      max-file-size: 20MB     # 单个文件最大大小
+      max-request-size: 20MB  # 整个请求最大大小
+
+# ===== MyBatis 配置 =====
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml                 # Mapper XML 文件的位置
+  type-aliases-package: com.example.zxds.nebula.db.pojo     # 实体类别名包（XML 里可直接用类名）
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # 把 SQL 打印到控制台，方便调试
+    map-underscore-to-camel-case: true                      # 下划线字段自动映射成驼峰属性
+
+# ===== 日志配置 =====
+logging:
+  level:
+    root: info                                # 全局日志级别为 info
+    com.example.zxds.nebula.db.dao: warn      # DAO 层日志级别调高，避免 SQL 日志过多
+  pattern:
+    console: "%d{yyyy/MM/dd HH:mm:ss}  %-5level  %msg%n"    # 控制台日志输出格式
+
+# ===== SpringDoc / Swagger 接口文档配置 =====
+springdoc:
+  api-docs:
+    enabled: true             # 开启 OpenAPI 接口文档
+    path: /doc-api.html       # 接口文档 JSON 的访问路径
+  swagger-ui:
+    path: /swagger-ui.html    # Swagger UI 页面的访问路径
+    disable-swagger-default-url: on   # 禁用默认的 Swagger 示例地址

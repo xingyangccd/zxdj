@@ -1,0 +1,5 @@
+2026-10-29 16:20:01 [com.xxl.job.core.thread.JobThread#run]-[133]-[xxl-job, JobThread-2-1793262001443] <br>----------- xxl-job job execute start -----------<br>----------- Param:
+2026-10-29 16:20:01 [com.example.zxds.odr.job.ProfitSharingCheckJob#checkProfitSharing]-[26]-[xxl-job, JobThread-2-1793262001443] 开始执行分账查单补偿任务...
+2026-10-29 16:20:09 [com.example.zxds.odr.job.ProfitSharingCheckJob#checkProfitSharing]-[58]-[xxl-job, JobThread-2-1793262001443] 查单异常：查询分账结果失败: 记录不存在
+2026-10-29 16:20:09 [com.xxl.job.core.thread.JobThread#run]-[179]-[xxl-job, JobThread-2-1793262001443] <br>----------- xxl-job job execute end(finish) -----------<br>----------- Result: handleCode=200, handleMsg = null
+2026-10-29 16:20:09 [com.xxl.job.core.thread.TriggerCallbackThread#callbackLog]-[197]-[xxl-job, executor TriggerCallbackThread] <br>----------- xxl-job job callback finish.

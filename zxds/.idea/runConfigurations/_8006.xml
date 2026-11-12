@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="规则模块:8006" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-rule" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.rule.ZxdsRuleApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

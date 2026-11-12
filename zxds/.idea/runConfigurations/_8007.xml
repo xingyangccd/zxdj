@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="乘客模块:8007" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-cst" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.cst.ZxdsCstApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

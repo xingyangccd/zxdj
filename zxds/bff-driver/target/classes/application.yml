@@ -1,0 +1,106 @@
+# ===== 服务器配置 =====
+server:
+  jetty:
+    threads:
+      acceptors: 4        # Jetty 接收线程数（负责接收连接）
+      selectors: 8        # Jetty 选择器线程数（负责处理 IO 事件）
+  port: 8101              # 服务端口号（司机端 BFF 使用 8101）
+  servlet:
+    context-path: /       # 应用的访问路径前缀，/ 表示根路径
+
+# ===== Spring 相关配置 =====
+spring:
+  config:
+    import:
+      # 可选导入 Nacos 上的公共配置 common.yaml（optional 表示找不到也不报错）
+      - optional:nacos:common.yaml
+  application:
+    name: bff-driver      # 应用名称（注册到 Nacos 时使用）
+
+  # ===== Redis 配置 =====
+  data:
+    redis:
+      database: 3                 # 使用的 Redis 库索引（司机端用 3，乘客端用 4，避免冲突）
+      host: 192.168.48.200        # Redis 地址
+      port: 6379                  # Redis 端口
+      password: abc123456         # Redis 密码
+      lettuce:
+        pool:
+          max-active: 1000        # 连接池最大连接数
+          max-wait: -1ms          # 获取连接的最大等待时间，-1 表示一直等待
+          max-idle: 16            # 最大空闲连接数
+          min-idle: 8             # 最小空闲连接数
+
+  # ===== Spring Cloud 配置 =====
+  cloud:
+    nacos:
+      config:                     # Nacos 配置中心
+        group: DEFAULT_GROUP      # 配置分组
+        file-extension: yaml      # 配置文件格式
+        server-addr: 192.168.48.200:8848   # Nacos 服务地址
+        namespace: zxds           # 命名空间
+        username: nacos           # 用户名
+        password: abc123456       # 密码
+      discovery:                  # Nacos 服务注册与发现
+        namespace: zxds
+        username: nacos
+        password: abc123456
+        server-addr: 192.168.48.200:8848
+        group: DEFAULT_GROUP
+        ip: 192.168.1.5        # 注册到 Nacos 的本机 IP
+    openfeign:
+      client:
+        config:
+          default:                # 对所有 Feign 客户端生效的默认配置
+            connectTimeout: 10000 # 连接超时时间（毫秒）
+            readTimeout: 300000   # 读取超时时间（毫秒，5 分钟）
+
+  # ===== 文件上传配置 =====
+  servlet:
+    multipart:
+      enabled: true           # 开启文件上传
+      max-file-size: 20MB     # 单个文件最大大小
+      max-request-size: 20MB  # 整个请求最大大小
+
+# ===== Sa-Token 登录认证配置 =====
+sa-token:
+  token-name: token           # Token 的名称（请求头/参数名）
+  timeout: 864000             # Token 有效期，单位秒（10 天）
+  active-timeout: -1          # 活动超时，-1 表示不限制（只要不过期就一直有效）
+  is-concurrent: true         # 是否允许同一账号并发登录
+  is-share: false             # 多人登录时是否共用一个 Token
+  token-style: uuid           # Token 生成风格，uuid 表示 UUID 格式
+  is-read-cookie: false       # 是否从 Cookie 中读取 Token（false 表示不读）
+
+# ===== SpringDoc / Swagger 接口文档配置 =====
+springdoc:
+  api-docs:
+    enabled: true             # 开启 OpenAPI 接口文档
+    path: /doc-api.html       # 接口文档 JSON 的访问路径
+  swagger-ui:
+    path: /swagger-ui.html    # Swagger UI 页面的访问路径
+    disable-swagger-default-url: on   # 禁用默认的 Swagger 示例地址
+
+# ===== Seata 分布式事务配置 =====
+seata:
+  enabled: true                                   # 开启 Seata 分布式事务
+  application-id: ${spring.application.name}      # 应用 ID，取当前应用名（bff-driver）
+  tx-service-group: default_tx_group              # 事务分组名称
+  registry:                                       # 注册中心配置（Seata 客户端从哪找 Seata Server）
+    type: nacos                                   # 使用 Nacos 作为注册中心
+    nacos:
+      server-addr: 192.168.48.200:8848            # Nacos 地址
+      application: seata-server                   # Seata 服务端的应用名
+      group: DEFAULT_GROUP                        # 分组
+      namespace: zxds                             # 命名空间
+      username: nacos
+      password: abc123456
+  config:                                         # 配置中心配置（Seata 客户端从哪读取参数）
+    type: nacos                                   # 使用 Nacos 作为配置中心
+    nacos:
+      server-addr: 192.168.48.200:8848            # Nacos 地址
+      group: SEATA_GROUP                          # Seata 配置所在分组
+      data-id: seataClient.properties             # 配置文件标识
+      namespace: zxds                             # 命名空间
+      username: nacos
+      password: abc123456

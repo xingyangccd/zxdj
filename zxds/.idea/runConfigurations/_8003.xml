@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="消息模块:8003" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-snm" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.snm.ZxdsSnmApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

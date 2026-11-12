@@ -1,0 +1,22 @@
+package com.example.zxds.snm.controller.form;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+
+@Data
+@Schema(description = "接收新订单消息的表单")
+public class ReceiveBillMessageForm {
+    @NotNull(message = "userId不能为空")
+    @Min(value = 1, message = "userId不能小于1")
+    @Schema(description = "用户ID")
+    private Long userId;
+
+    @NotBlank(message = "identity不能为空")
+    @Pattern(regexp = "^driver$|^mis$|^customer$|^customer_bill$", message = "identity内容不正确")
+    @Schema(description = "用户身份")
+    private String identity;
+}

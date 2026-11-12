@@ -1,0 +1,65 @@
+server:
+  jetty:
+    threads:
+      acceptors: 4
+      selectors: 8
+  port: 8004
+  servlet:
+    context-path: /
+
+spring:
+  config:
+    import:
+      - optional:nacos:common.yaml
+  application:
+    name: zxds-mps
+
+  data:
+    redis:
+      database: 7
+      host: 192.168.48.200
+      port: 6379
+      password: abc123456
+      lettuce:
+        pool:
+          max-active: 1000
+          max-wait: -1ms
+          max-idle: 16
+          min-idle: 8
+
+  cloud:
+    nacos:
+      config:
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        server-addr: 192.168.48.200:8848
+        namespace: zxds
+        username: nacos
+        password: abc123456
+      discovery:
+        namespace: zxds
+        username: nacos
+        password: abc123456
+        server-addr: 192.168.48.200:8848
+        group: DEFAULT_GROUP
+        ip: 192.168.1.5
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 10000
+            readTimeout: 300000
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /doc-api.html
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: on

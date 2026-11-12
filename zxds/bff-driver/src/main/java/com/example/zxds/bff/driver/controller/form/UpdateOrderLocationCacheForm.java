@@ -1,0 +1,28 @@
+package com.example.zxds.bff.driver.controller.form;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+
+@Data
+@Schema(description = "更新订单定位缓存的表单")
+public class UpdateOrderLocationCacheForm {
+
+    @NotNull(message = "orderId不能为空")
+    @Min(value = 1, message = "orderId不能小于1")
+    @Schema(description = "订单ID")
+    private String orderId;
+
+    @NotBlank(message = "latitude不能为空")
+    @Pattern(regexp = "^(([1-8]\\d?)|([1-8]\\d))(\\.\\d{1,18})|90|0(\\.\\d{1,18})?$", message = "latitude内容不正确")
+    @Schema(description = "纬度")
+    private String latitude;
+
+    @NotBlank(message = "longitude不能为空")
+    @Pattern(regexp = "^(([1-9]\\d?)|(1[0-7]\\d))(\\.\\d{1,18})|180|0(\\.\\d{1,18})?$", message = "longitude内容不正确")
+    @Schema(description = "经度")
+    private String longitude;
+}

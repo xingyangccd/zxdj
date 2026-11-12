@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-dr/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-cst/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-mps/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-odr/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-oes/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-snm/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-vhr/pom.xml" />
+        <option value="$PROJECT_DIR$/bff-driver/pom.xml" />
+        <option value="$PROJECT_DIR$/bff-customer/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-mis-api/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-nebula/pom.xml" />
+        <option value="$PROJECT_DIR$/zxds-rule/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="21" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

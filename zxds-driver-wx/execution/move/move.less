@@ -1,0 +1,97 @@
+@import url('../../style.less');
+
+page {
+	background-color: #fff7ef;
+	height: 100%;
+	font-family: @ff-1;
+	overflow: hidden;
+}
+
+/* ===== 页面容器 ===== */
+.page {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	background: #fff7ef;
+}
+
+/* ===== 自定义导航栏 ===== */
+.nav-bar {
+	position: relative;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 88rpx;
+	padding: 0 20rpx;
+	box-sizing: content-box;
+	background-color: #fff7ef;
+}
+
+.nav-back {
+	font-size: 56rpx;
+	color: #2b1a0d;
+	width: 60rpx;
+	line-height: 1;
+	padding-bottom: 6rpx;
+}
+
+.nav-title {
+	font-size: 34rpx;
+	font-weight: bold;
+	color: #2b1a0d;
+	letter-spacing: 2rpx;
+}
+
+.nav-placeholder {
+	width: 60rpx;
+}
+
+/* ===== 地图 ===== */
+.map {
+	width: 100%;
+	flex: 1;
+}
+
+/* ===== 悬浮信息卡片 ===== */
+.information-container {
+	display: flex;
+	align-items: center;
+	position: absolute;
+	bottom: 60rpx;
+	width: 90%;
+	left: 5%;
+	background-color: #ffffff;
+	border-radius: 20rpx;
+	box-shadow: 0 8rpx 30rpx rgba(255, 138, 61, 0.15);
+	border: solid 1rpx rgba(255, 138, 61, 0.2);
+	padding: 30rpx 35rpx;
+	box-sizing: border-box;
+
+	.close-icon {
+		display: block;
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 30rpx;
+		opacity: 0.6;
+	}
+
+	.info {
+		display: flex;
+		align-items: center;
+		flex: 1;
+
+		.label {
+			font-size: 32rpx;
+			color: #8a7a6b;
+		}
+
+		.value {
+			font-weight: bold;
+			font-size: 36rpx;
+			color: #ff8a3d;
+			margin: 0 8rpx;
+		}
+	}
+}

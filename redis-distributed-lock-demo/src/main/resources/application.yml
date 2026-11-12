@@ -1,0 +1,13 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: redis-distributed-lock-demo
+  data:
+    redis:
+      host: 192.168.48.200
+      port: 6379
+      password: abc123456
+      database: 0
+      timeout: 3000ms

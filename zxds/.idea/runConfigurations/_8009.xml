@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="私有云模块:8009" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="zxds-nebula" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.zxds.nebula.ZxdsNebulaApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

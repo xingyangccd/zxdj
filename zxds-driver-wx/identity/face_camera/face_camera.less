@@ -1,0 +1,223 @@
+@import url('../../style.less');
+
+page {
+	background-color: #fff7ef;
+	min-height: 100%;
+	font-family: @ff-1;
+}
+
+/* ===== 页面容器 ===== */
+.face-page {
+	position: relative;
+	min-height: 100vh;
+	padding: 0 40rpx 80rpx;
+	box-sizing: border-box;
+	background: #fff7ef;
+	overflow: hidden;
+}
+
+/* ===== 渐变背景 ===== */
+.bg-gradient {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 42%;
+	background: linear-gradient(170deg, #ffe9d4 0%, #fff7ef 60%, #fff7ef 100%);
+	z-index: 0;
+}
+
+/* ===== 光晕 ===== */
+.glow {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(100rpx);
+	z-index: 0;
+}
+
+.glow-1 {
+	width: 520rpx;
+	height: 520rpx;
+	top: -180rpx;
+	right: -160rpx;
+	background: radial-gradient(circle, rgba(255, 138, 61, 0.3) 0%, rgba(255, 138, 61, 0) 70%);
+	animation: float1 10s ease-in-out infinite;
+}
+
+.glow-2 {
+	width: 380rpx;
+	height: 380rpx;
+	top: 30%;
+	left: -140rpx;
+	background: radial-gradient(circle, rgba(255, 90, 90, 0.22) 0%, rgba(255, 90, 90, 0) 70%);
+	animation: float2 12s ease-in-out infinite;
+}
+
+@keyframes float1 {
+	0%, 100% { transform: translate(0, 0); }
+	50% { transform: translate(-20rpx, 30rpx); }
+}
+
+@keyframes float2 {
+	0%, 100% { transform: translate(0, 0); }
+	50% { transform: translate(30rpx, -40rpx); }
+}
+
+/* ===== 自定义导航栏 ===== */
+.nav-bar {
+	position: relative;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 88rpx;
+	padding: 0 20rpx;
+	box-sizing: content-box;
+}
+
+.nav-back {
+	font-size: 56rpx;
+	color: #2b1a0d;
+	width: 60rpx;
+	line-height: 1;
+}
+
+.nav-title {
+	font-size: 34rpx;
+	font-weight: bold;
+	color: #2b1a0d;
+	letter-spacing: 2rpx;
+}
+
+.nav-placeholder {
+	width: 60rpx;
+}
+
+/* ===== 相机 / 预览图 ===== */
+.face-container {
+	position: relative;
+	z-index: 1;
+	margin-top: 20rpx;
+	width: 100%;
+	height: 670rpx;
+	border-radius: 20rpx;
+	overflow: hidden;
+	background: #ffffff;
+	box-shadow: 0 8rpx 30rpx rgba(255, 138, 61, 0.08);
+
+	.camera {
+		display: block;
+		width: 100%;
+		height: 670rpx;
+	}
+
+	.image-container {
+		width: 100%;
+		height: 670rpx;
+		position: relative;
+
+		.photo {
+			width: 100%;
+			height: 670rpx;
+		}
+
+		.cover {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 670rpx;
+			background-image: url(../static/face_camera/bg.png);
+			background-size: 100% 100%;
+		}
+	}
+}
+
+/* ===== 提示文字 ===== */
+.desc {
+	position: relative;
+	z-index: 1;
+	margin-top: 40rpx;
+	text-align: center;
+
+	.tips {
+		display: block;
+		width: 100rpx;
+		margin: 0 auto 25rpx;
+	}
+
+	.face {
+		display: block;
+		width: 150rpx;
+		margin: 0 auto 25rpx;
+	}
+
+	text {
+		display: block;
+		font-size: 30rpx;
+		margin-bottom: 12rpx;
+		color: #8a7a6b;
+	}
+}
+
+/* ===== 按钮 ===== */
+.btn-area {
+	position: relative;
+	z-index: 1;
+	margin-top: 60rpx;
+}
+
+.btn {
+	position: relative;
+	width: 100%;
+	height: 108rpx;
+	line-height: 108rpx;
+	background: transparent;
+	color: #ffffff;
+	font-size: 32rpx;
+	font-weight: bold;
+	border-radius: 54rpx;
+	border: none;
+	letter-spacing: 4rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	overflow: hidden;
+
+	&::after {
+		border: none;
+	}
+
+	&:active {
+		.btn-bg {
+			opacity: 0.85;
+		}
+	}
+}
+
+.btn-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(135deg, #ff8a3d 0%, #ff5a5a 50%, #ff3d7a 100%);
+	border-radius: 54rpx;
+	box-shadow: 0 12rpx 36rpx rgba(255, 138, 61, 0.4), 0 0 60rpx rgba(255, 90, 90, 0.25);
+	z-index: 0;
+}
+
+.btn-text {
+	position: relative;
+	z-index: 1;
+}
+
+.btn-arrow {
+	position: relative;
+	z-index: 1;
+	margin-left: 18rpx;
+	font-size: 36rpx;
+	line-height: 1;
+	transform: translateY(-2rpx);
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.zxds.odr.db.dao.OrderProfitsharingDao">
+    <insert id="insert" parameterType="com.example.zxds.odr.db.pojo.OrderProfitsharingEntity">
+        INSERT INTO tb_order_profitsharing (id, order_id, rule_id, amount_fee, payment_rate,
+                                            payment_fee, tax_rate, tax_fee, system_income,
+                                            driver_income, `status`)
+        VALUES (#{id}, #{orderId}, #{ruleId}, #{amountFee}, #{paymentRate},
+                #{paymentFee}, #{taxRate}, #{taxFee}, #{systemIncome},
+                #{driverIncome}, 1)
+    </insert>
+
+    <select id="searchDriverIncome" parameterType="String" resultType="HashMap">
+        SELECT p.id                        AS profitsharingId,
+               CAST(driver_income AS CHAR) AS driverIncome
+        FROM tb_order_profitsharing p
+                 JOIN tb_order o ON p.order_id = o.id
+        WHERE o.uuid = #{uuid};
+    </select>
+
+    <update id="updateProfitsharingStatus" parameterType="long">
+        UPDATE tb_order_profitsharing
+        SET `status`=2
+        WHERE id = #{profitsharingId}
+    </update>
+
+    <!-- 查询处理中且超时的分账记录 -->
+    <select id="searchProcessingRecords" parameterType="int" resultType="HashMap">
+        SELECT p.id                        AS profitsharingId,
+               CAST(p.id AS CHAR)          AS outOrderNo,
+               o.pay_id                    AS transactionId
+        FROM tb_order_profitsharing p
+                 JOIN tb_order o ON p.order_id = o.id
+        WHERE p.`status` = 1
+          AND o.pay_time &lt;= DATE_SUB(NOW(), INTERVAL #{minute} MINUTE)
+            LIMIT 100
+    </select>
+
+</mapper>

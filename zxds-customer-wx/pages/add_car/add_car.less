@@ -1,0 +1,128 @@
+@import url('../../style.less');
+
+page {
+	font-family: @ff-1;
+	background-color: #eef4ff;
+	min-height: 100%;
+}
+
+.page {
+	position: relative;
+	min-height: 100vh;
+	padding: 0 30rpx 60rpx;
+	box-sizing: border-box;
+}
+
+/* ===== 自定义导航栏 ===== */
+.nav-bar {
+	position: relative;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 88rpx;
+	padding: 0 20rpx;
+	box-sizing: content-box;
+}
+
+.nav-back {
+	width: 60rpx;
+	height: 60rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 52rpx;
+	color: #0d1a3a;
+	font-weight: 300;
+	line-height: 1;
+}
+
+.nav-title {
+	font-size: 34rpx;
+	font-weight: bold;
+	color: #0d1a3a;
+	letter-spacing: 2rpx;
+}
+
+.nav-placeholder {
+	width: 60rpx;
+}
+
+/* ===== 菜单卡片 ===== */
+.menu-card {
+	background: #ffffff;
+	border-radius: 20rpx;
+	overflow: hidden;
+	box-shadow: 0 8rpx 30rpx rgba(32, 116, 253, 0.08);
+	margin-top: 20rpx;
+}
+
+/* ===== 保存按钮 ===== */
+.btn {
+	position: relative;
+	width: 100%;
+	height: 108rpx;
+	line-height: 108rpx;
+	background: transparent;
+	color: #ffffff;
+	font-size: 32rpx;
+	font-weight: bold;
+	border-radius: 54rpx;
+	border: none;
+	letter-spacing: 4rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	overflow: hidden;
+	margin-top: 60rpx;
+
+	&::after {
+		border: none;
+	}
+
+	&:active {
+		.btn-bg {
+			opacity: 0.85;
+		}
+	}
+}
+
+.btn-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(135deg, #2074FD 0%, #1aa4ec 50%, #52c98c 100%);
+	border-radius: 54rpx;
+	box-shadow: 0 12rpx 36rpx rgba(32, 116, 253, 0.4), 0 0 60rpx rgba(26, 164, 236, 0.25);
+	z-index: 0;
+}
+
+.btn-text {
+	position: relative;
+	z-index: 1;
+}
+
+.btn-arrow {
+	position: relative;
+	z-index: 1;
+	margin-left: 18rpx;
+	font-size: 36rpx;
+	line-height: 1;
+	transform: translateY(-2rpx);
+}
+
+/* ===== 底部说明 ===== */
+.desc {
+	font-size: 26rpx;
+	text-align: center;
+	margin-top: 40rpx;
+	color: #8a9aad;
+
+	text {
+		color: #2074FD;
+		text-decoration: underline;
+	}
+}

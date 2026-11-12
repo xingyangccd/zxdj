@@ -1,0 +1,482 @@
+@import url("../../style.less");
+
+page {
+	font-family: @ff-1;
+}
+
+/* ===== 页面容器 ===== */
+.register-page {
+	position: relative;
+	min-height: 100vh;
+	background: #fff7ef;
+	overflow: hidden;
+	padding: 0 56rpx 80rpx;
+	box-sizing: border-box;
+}
+
+/* ===== 渐变背景 ===== */
+.bg-gradient {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 42%;
+	background: linear-gradient(170deg, #ffe9d4 0%, #fff7ef 60%, #fff7ef 100%);
+	z-index: 0;
+}
+
+/* ===== 光晕 ===== */
+.glow {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(100rpx);
+	z-index: 0;
+}
+
+.glow-1 {
+	width: 520rpx;
+	height: 520rpx;
+	top: -180rpx;
+	right: -160rpx;
+	background: radial-gradient(circle, rgba(255, 138, 61, 0.3) 0%, rgba(255, 138, 61, 0) 70%);
+	animation: float1 10s ease-in-out infinite;
+}
+
+.glow-2 {
+	width: 380rpx;
+	height: 380rpx;
+	top: 30%;
+	left: -140rpx;
+	background: radial-gradient(circle, rgba(255, 90, 90, 0.22) 0%, rgba(255, 90, 90, 0) 70%);
+	animation: float2 12s ease-in-out infinite;
+}
+
+.glow-3 {
+	width: 400rpx;
+	height: 400rpx;
+	bottom: -100rpx;
+	right: -100rpx;
+	background: radial-gradient(circle, rgba(255, 201, 140, 0.28) 0%, rgba(255, 201, 140, 0) 70%);
+	animation: float1 14s ease-in-out infinite reverse;
+}
+
+@keyframes float1 {
+	0%, 100% { transform: translate(0, 0); }
+	50% { transform: translate(-20rpx, 30rpx); }
+}
+
+@keyframes float2 {
+	0%, 100% { transform: translate(0, 0); }
+	50% { transform: translate(30rpx, -40rpx); }
+}
+
+/* ===== 顶部品牌 ===== */
+.header {
+	position: relative;
+	z-index: 1;
+	padding-top: 90rpx;
+}
+
+.brand-row {
+	display: flex;
+	align-items: center;
+}
+
+.brand-mark {
+	position: relative;
+	width: 80rpx;
+	height: 80rpx;
+	border-radius: 20rpx;
+	background: linear-gradient(135deg, #ff8a3d 0%, #ff5a5a 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 8rpx 30rpx rgba(255, 138, 61, 0.4);
+}
+
+.brand-mark-glow {
+	position: absolute;
+	top: -8rpx;
+	left: -8rpx;
+	right: -8rpx;
+	bottom: -8rpx;
+	border-radius: 24rpx;
+	background: linear-gradient(135deg, #ff8a3d 0%, #ff5a5a 100%);
+	opacity: 0.35;
+	filter: blur(20rpx);
+	z-index: -1;
+}
+
+.brand-mark-text {
+	font-size: 48rpx;
+	font-weight: bold;
+	color: #ffffff;
+	font-style: italic;
+	line-height: 1;
+}
+
+.brand-info {
+	margin-left: 22rpx;
+}
+
+.brand-name {
+	font-size: 36rpx;
+	font-weight: bold;
+	color: #2b1a0d;
+	letter-spacing: 4rpx;
+	line-height: 1.2;
+}
+
+.brand-sub {
+	margin-top: 6rpx;
+	display: flex;
+	align-items: center;
+	font-size: 22rpx;
+	color: #ff8a3d;
+	letter-spacing: 2rpx;
+	font-weight: 500;
+}
+
+.sub-dot {
+	width: 10rpx;
+	height: 10rpx;
+	border-radius: 50%;
+	background: #52c98c;
+	margin-right: 10rpx;
+	box-shadow: 0 0 12rpx rgba(82, 201, 140, 0.8);
+}
+
+/* ===== 主标题 ===== */
+.hero {
+	position: relative;
+	z-index: 1;
+	margin-top: 70rpx;
+	margin-bottom: 50rpx;
+}
+
+.hero-eyebrow {
+	font-size: 22rpx;
+	color: #d9884a;
+	letter-spacing: 8rpx;
+	margin-bottom: 20rpx;
+	font-weight: 600;
+}
+
+.hero-title {
+	display: flex;
+	flex-direction: column;
+}
+
+.title-line {
+	font-size: 60rpx;
+	font-weight: bold;
+	color: #2b1a0d;
+	line-height: 1.15;
+	letter-spacing: 4rpx;
+}
+
+.title-accent {
+	background: linear-gradient(90deg, #ff8a3d 0%, #ff5a5a 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	font-style: italic;
+	padding-right: 8rpx;
+}
+
+.hero-desc {
+	margin-top: 24rpx;
+	font-size: 24rpx;
+	color: #8a7a6b;
+	letter-spacing: 2rpx;
+}
+
+/* ===== 服务地点卡片 ===== */
+.location-card {
+	position: relative;
+	z-index: 1;
+	background: #ffffff;
+	border-radius: 20rpx;
+	padding: 28rpx 32rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 8rpx 30rpx rgba(255, 138, 61, 0.08);
+	margin-bottom: 32rpx;
+}
+
+.location-left {
+	display: flex;
+	align-items: center;
+}
+
+.location-icon {
+	font-size: 32rpx;
+	margin-right: 12rpx;
+}
+
+.location-text {
+	font-size: 28rpx;
+	color: #2b1a0d;
+	font-weight: 500;
+}
+
+.location-right {
+	font-size: 28rpx;
+	color: #ff8a3d;
+	font-weight: bold;
+}
+
+/* ===== 通用卡片 ===== */
+.info-card,
+.form-card {
+	position: relative;
+	z-index: 1;
+	background: #ffffff;
+	border-radius: 20rpx;
+	padding: 36rpx 32rpx;
+	box-shadow: 0 8rpx 30rpx rgba(255, 138, 61, 0.08);
+	margin-bottom: 32rpx;
+}
+
+.card-title {
+	font-size: 30rpx;
+	font-weight: bold;
+	color: #2b1a0d;
+	letter-spacing: 2rpx;
+	margin-bottom: 30rpx;
+	padding-left: 20rpx;
+	position: relative;
+}
+
+.card-title::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 8rpx;
+	height: 30rpx;
+	border-radius: 4rpx;
+	background: linear-gradient(180deg, #ff8a3d 0%, #ff5a5a 100%);
+}
+
+/* ===== 基本要求列表 ===== */
+.list {
+	font-size: 26rpx;
+	color: #6b5c50;
+	line-height: 1.75;
+}
+
+.item {
+	margin-bottom: 16rpx;
+	display: flex;
+	align-items: flex-start;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.item-index {
+	color: #ff8a3d;
+	font-weight: bold;
+	margin-right: 14rpx;
+	flex-shrink: 0;
+}
+
+/* ===== 注册流程 ===== */
+.steps {
+	display: flex;
+	flex-direction: column;
+}
+
+.step {
+	display: flex;
+	align-items: flex-start;
+	padding: 24rpx 0;
+	border-bottom: 1rpx solid #f5e8dc;
+
+	&:first-child {
+		padding-top: 0;
+	}
+
+	&:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
+	}
+}
+
+.step-num {
+	font-size: 56rpx;
+	font-weight: bold;
+	color: #ffd9b8;
+	margin-right: 24rpx;
+	line-height: 1;
+	flex-shrink: 0;
+	font-style: italic;
+}
+
+.step-content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding-top: 4rpx;
+}
+
+.step-title {
+	font-size: 30rpx;
+	font-weight: bold;
+	color: #2b1a0d;
+	margin-bottom: 10rpx;
+}
+
+.step-desc {
+	font-size: 24rpx;
+	color: #8a7a6b;
+	line-height: 1.5;
+}
+
+/* ===== 表单 ===== */
+.form-item {
+	margin-bottom: 36rpx;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.form-label {
+	display: block;
+	font-size: 26rpx;
+	color: #2b1a0d;
+	font-weight: bold;
+	margin-bottom: 18rpx;
+}
+
+.nickname-input {
+	width: 100%;
+	height: 88rpx;
+	padding: 0 24rpx;
+	background: #fff7ef;
+	border-radius: 16rpx;
+	font-size: 28rpx;
+	color: #2b1a0d;
+	box-sizing: border-box;
+}
+
+.avatar-wrapper {
+	width: 160rpx;
+	height: 160rpx;
+	border-radius: 50%;
+	overflow: hidden;
+	padding: 0;
+	margin: 0;
+	background: #fff7ef;
+	border: 4rpx solid #ffe9d4;
+	box-shadow: 0 8rpx 24rpx rgba(255, 138, 61, 0.15);
+}
+
+.avatar-wrapper::after {
+	border: none;
+}
+
+.avatar {
+	width: 100%;
+	height: 100%;
+}
+
+.avatar-tip {
+	display: block;
+	font-size: 22rpx;
+	color: #b8a596;
+	margin-top: 16rpx;
+}
+
+/* ===== 注册按钮 ===== */
+.btn-area {
+	position: relative;
+	z-index: 1;
+	margin-top: 20rpx;
+	margin-bottom: 40rpx;
+}
+
+.btn {
+	position: relative;
+	width: 100%;
+	height: 108rpx;
+	line-height: 108rpx;
+	background: transparent;
+	color: #ffffff;
+	font-size: 32rpx;
+	font-weight: bold;
+	border-radius: 54rpx;
+	border: none;
+	letter-spacing: 4rpx;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	overflow: hidden;
+
+	&::after {
+		border: none;
+	}
+
+	&:active {
+		.btn-bg {
+			opacity: 0.85;
+		}
+	}
+}
+
+.btn-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(135deg, #ff8a3d 0%, #ff5a5a 50%, #ff3d7a 100%);
+	border-radius: 54rpx;
+	box-shadow: 0 12rpx 36rpx rgba(255, 138, 61, 0.4), 0 0 60rpx rgba(255, 90, 90, 0.25);
+	z-index: 0;
+}
+
+.btn-text {
+	position: relative;
+	z-index: 1;
+}
+
+.btn-arrow {
+	position: relative;
+	z-index: 1;
+	margin-left: 18rpx;
+	font-size: 36rpx;
+	line-height: 1;
+	transform: translateY(-2rpx);
+}
+
+/* ===== 底部 ===== */
+.footer {
+	position: relative;
+	z-index: 1;
+	padding-bottom: 40rpx;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.footer-line {
+	width: 80rpx;
+	height: 2rpx;
+	background: linear-gradient(90deg, transparent 0%, rgba(255, 138, 61, 0.35) 50%, transparent 100%);
+	margin-bottom: 24rpx;
+}
+
+.remark {
+	font-size: 22rpx;
+	color: #a8988a;
+	text-align: center;
+	line-height: 1.8;
+	letter-spacing: 1rpx;
+}

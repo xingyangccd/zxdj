@@ -1,0 +1,13 @@
+package com.example.zxds.snm.controller.form;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+
+@Data
+@Schema(description = "把未读消息更新成已读的表单")
+public class UpdateUnreadMessageForm {
+    @NotBlank(message = "id不能为空")
+    @Schema(description = "ref消息ID")
+    private String id;
+}

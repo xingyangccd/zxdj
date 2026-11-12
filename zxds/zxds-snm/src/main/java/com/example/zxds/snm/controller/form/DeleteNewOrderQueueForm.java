@@ -1,0 +1,15 @@
+package com.example.zxds.snm.controller.form;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+@Schema(description = "删除新订单消息队列")
+public class DeleteNewOrderQueueForm {
+    @NotNull(message = "userId不能为空")
+    @Min(value = 1, message = "userId不能小于1")
+    @Schema(description = "用户ID")
+    private Long userId;
+}

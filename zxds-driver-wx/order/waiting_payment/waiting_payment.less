@@ -1,0 +1,143 @@
+@import url('../../style.less');
+
+page {
+	font-family: @ff-1;
+	background-color: #f5f6f8; /* 灰底 */
+	height: 100%;
+}
+
+.page {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+/* ===== 自定义导航栏 ===== */
+.nav-bar {
+	position: relative;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 88rpx;
+	padding: 0 20rpx;
+	box-sizing: content-box;
+	background-color: #f5f6f8;
+}
+
+.nav-back {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 60rpx;
+	height: 100%;
+	line-height: 1;
+	padding-bottom: 6rpx;
+}
+
+.nav-title {
+	font-size: 34rpx;
+	font-weight: bold;
+	color: #333;
+	letter-spacing: 2rpx;
+}
+
+.nav-placeholder {
+	width: 60rpx;
+}
+
+/* ===== 滚动区域 ===== */
+.content-scroll {
+	flex: 1;
+	overflow: hidden;
+}
+
+/* ===== 等待卡片 ===== */
+.waiting-container {
+	background-color: #fff;
+	padding-top: 80rpx;
+	padding-bottom: 80rpx;
+	margin: 20rpx 30rpx;
+	border-radius: 24rpx;
+	box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+
+	.payment {
+		display: block;
+		width: 50%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.title {
+		font-size: 38rpx;
+		font-weight: bold;
+		color: #333;
+		text-align: center;
+		margin-top: 40rpx;
+	}
+	.second {
+		text-align: center;
+		margin-top: 20rpx;
+		color: #333;
+		font-size: 32rpx;
+	}
+	.btn {
+		background-color: #3f7bfb;
+		color: #fff;
+		width: 80%;
+		height: 88rpx;
+		line-height: 88rpx;
+		border-radius: 12rpx;
+		margin-top: 60rpx;
+		font-size: 32rpx;
+
+		&::after {
+			border: none;
+		}
+		&:active {
+			opacity: 0.8;
+		}
+	}
+}
+
+/* ===== 注意事项卡片 ===== */
+.notice-container {
+	background-color: #fff;
+	padding: 40rpx 30rpx;
+	margin: 0 30rpx;
+	border-radius: 24rpx;
+	box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+
+	.notice-title {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-bottom: 30rpx;
+
+		.title-text {
+			font-size: 32rpx;
+			font-weight: bold;
+			color: #333;
+			margin-left: 10rpx;
+		}
+	}
+
+	.desc {
+		display: flex;
+		align-items: flex-start; /* 顶端对齐 */
+		padding-bottom: 24rpx;
+
+		.num {
+			font-size: 26rpx;
+			color: #888;
+			line-height: 1.8;
+			width: 40rpx; /* 固定宽度让文字对齐 */
+			flex-shrink: 0;
+		}
+		.content {
+			flex: 1;
+			font-size: 26rpx;
+			color: #888;
+			line-height: 1.8;
+		}
+	}
+}

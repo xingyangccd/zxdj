@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bff-customer" />
+        <module name="zxds-nebula" />
+        <module name="zxds-vhr" />
+        <module name="zxds-cst" />
+        <module name="common" />
+        <module name="zxds-odr" />
+        <module name="zxds-oes" />
+        <module name="zxds-snm" />
+        <module name="zxds-mps" />
+        <module name="zxds-mis-api" />
+        <module name="zxds-rule" />
+        <module name="zxds-dr" />
+        <module name="bff-driver" />
+        <module name="gateway" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bff-customer" options="" />
+      <module name="bff-driver" options="" />
+      <module name="common" options="" />
+      <module name="gateway" options="" />
+      <module name="zxds" options="" />
+      <module name="zxds-cst" options="" />
+      <module name="zxds-dr" options="" />
+      <module name="zxds-mis-api" options="" />
+      <module name="zxds-mps" options="" />
+      <module name="zxds-nebula" options="" />
+      <module name="zxds-odr" options="" />
+      <module name="zxds-oes" options="" />
+      <module name="zxds-rule" options="" />
+      <module name="zxds-snm" options="" />
+      <module name="zxds-vhr" options="" />
+    </option>
+  </component>
+</project>
